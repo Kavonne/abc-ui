@@ -33,8 +33,13 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
+      login({ userAccount: username.trim(), loginPassword: password }).then(response => {
+        // const { data } = response
+        // 开发写死
+        debugger
+        const data = {
+          token: 'admin-token'
+        }
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -48,7 +53,14 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
+        // const { data } = response
+        // 开发写死
+        const data = {
+          roles: ['SYSTEM_MANAGE', 'MENU_DEFINE'],
+          introduction: 'I am a super administrator24',
+          avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+          name: 'Super Admin'
+        }
 
         if (!data) {
           reject('Verification failed, please Login again.')

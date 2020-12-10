@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import RouterView from '@/router/view'
 
 /* Router Modules */
 import componentsRouter from './modules/components'
@@ -79,7 +80,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -129,6 +130,91 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/system',
+    name: 'SYSTEM_MANAGE', // 或者用数据库记录的id唯一标识也行
+    component: Layout,
+    redirect: 'noRedirect',
+    meta: { title: '系统管理', roles: ['SYSTEM_MANAGE'] },
+    children: [
+      {
+        path: 'auth',
+        name: 'AUTH_MANAGE',
+        component: RouterView,
+        redirect: 'noRedirect',
+        meta: { title: '权限管理' },
+        children: [
+          {
+            path: 'define',
+            name: 'AUTH_DEFINE',
+            component: RouterView,
+            redirect: 'noRedirect',
+            meta: { title: '权限定义' },
+            children: [
+              {
+                path: 'menu',
+                name: 'MENU_DEFINE',
+                component: () => import('@/views/system/auth/menu'),
+                meta: { title: '菜单定义', roles: ['MENU_DEFINE'] }
+              },
+              {
+                path: 'resource',
+                name: 'RESOURCE_DEFINE',
+                component: () => import('@/views/system/auth/resource'),
+                meta: { title: '资源定义' }
+              }
+            ]
+          },
+          {
+            path: 'tenant',
+            name: 'TENANT_MANAGE',
+            component: () => import('@/views/system/auth/tenant'),
+            meta: { title: '租户管理' }
+          },
+          {
+            path: 'org',
+            name: 'ORG_MANAGE',
+            component: () => import('@/views/system/auth/org'),
+            meta: { title: '机构管理' }
+          },
+          {
+            path: 'user',
+            name: 'USER_MANAGE',
+            component: () => import('@/views/system/auth/user'),
+            meta: { title: '用户管理' }
+          },
+          {
+            path: 'assign',
+            name: 'AUTH_ASSIGN',
+            component: RouterView,
+            redirect: 'noRedirect',
+            meta: { title: '权限分配' },
+            children: [
+              {
+                path: 'role',
+                name: 'ROLE_MANAGE',
+                component: () => import('@/views/system/auth/role'),
+                meta: { title: '角色管理' }
+              },
+              {
+                path: 'permission',
+                name: 'PERMISSION_MANAGE',
+                component: () => import('@/views/system/auth/permission'),
+                meta: { title: '许可管理' }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'config',
+        name: 'CONFIG_MANAGE',
+        component: () => import('@/views/nested/menu2/index'),
+        meta: { title: '配置管理2' }
+      }
+    ]
+  },
+
   {
     path: '/permission',
     component: Layout,

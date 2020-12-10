@@ -121,7 +121,7 @@ aside {
 
 //main-container全局样式
 .app-container {
-  padding: 20px;
+  padding: 15px; // 与面包屑左对齐。
 }
 
 .components-container {
@@ -188,4 +188,12 @@ aside {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+// ====== curd start ======
+.curd-toolbar {
+  padding-bottom: 2px;
+}
+.curd-option-button {
+  margin-left: 10px;
 }
